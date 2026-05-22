@@ -31,7 +31,7 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 3. **快速通道（命中即终止步骤 2）**：仅当路由到 **1.1 SRE Team** 时优先尝试，按以下顺序检查 `references/technology-center/InfrastructurePlatformDepartment.md` 的对应小节：
    1. **22 类高频工单速查表** (`### 常见问题排查（速查表 + 历史工单 22 类高频问题）`)：覆盖发布 / EKS / EC2 / 网络 / 域名 / DB / Redis / Canal / Kafka / Apollo / 网关 / 告警 / 监控 / JumpServer / 大数据 / LiteLLM / CI / 云权限 / 办公 IT 等。**优先级最高**，命中即返回。
    2. **Gitlab 专项** (`### Gitlab 专项负责人地图`)：覆盖 Gitlab 权限 / Code Review / GPG / 安全卡点 / Merge 报错 / 接口限制申请 / 发布检测白名单。
-   3. **公共组件与中间件专项** (`### 公共组件与中间件找人专项指引`)：覆盖 Jedis / RPC / 业务网关 / 内部网关 / Kafka / RocketMQ / ETCD / nacos / Apollo / Skywalking / 三方风控 / 多泳道 / 探针体系（默认团队负责人 @Petter Li）。
+   3. **公共组件专项** (`### 公共组件找人专项指引`)：覆盖 Jedis / RPC / 业务网关 / 内部网关 / Kafka / RocketMQ / ETCD / nacos / Apollo / Skywalking / 三方风控 / 多泳道 / 探针体系（默认团队负责人 @Petter Li）。
    - 命中即结束步骤 2；未命中则进入子步骤 4。
 
 4. **加载部门详情**：根据子步骤 2 的路由结果，阅读 `references/technology-center/InfrastructurePlatformDepartment.md` 中对应的 H2/H3 小节（1.1 / 1.2 / 1.3 三个方向均在同一文件）。
@@ -86,6 +86,14 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 **场景 C：返回主备或多人**
 ```
 **匹配结果：** 已为您匹配到 `<方向>`，主负责人 **@姓名 A**；备份联系人 **@姓名 B**。
+```
+
+**场景 D：歧义无法消解，需用户二选一（如中间件实例 vs SDK）**
+```
+**匹配结果：** 您的问题涉及 `<中间件名>`，但未明确具体场景，请您确认后再继续：
+- 若属于**实例运维**（broker 不可用 / 集群异常 / 网络不通 / Topic 管理），主负责人 **@姓名 A**。
+- 若属于**SDK 使用**（客户端代码 / 消费积压 / 发送 timeout / 序列化），主负责人 **@姓名 B**。
+**下一步：** 请补充具体描述，我将为您精确路由。
 ```
 
 ## 示例

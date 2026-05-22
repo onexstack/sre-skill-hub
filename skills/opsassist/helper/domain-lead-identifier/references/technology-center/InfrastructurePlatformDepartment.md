@@ -16,23 +16,26 @@
 ### 基础设施架构组 
 > **团队职责**：多云管理（安全/成本/巡检）、大数据运维、IaC 建设、网络架构设计。
 *   **团队负责人**: @Runner Zhang
-*   **公有云管理** (权限/网络/成本/AI自动化巡检): @Ives Gao | @Rocky Liu, @Evan Su
+*   **公有云管理** (云账号权限/VPC 网络/成本治理/AI 自动化巡检；**不含**数据库实例本身的部署/扩容/参数调优 — 请见 DBA 组；**不含** Redis/MongoDB/TiDB 等任何"云数据库"产品的实例运维): @Ives Gao | @Rocky Liu, @Evan Su
 *   **大数据体系运维** (Hadoop/Flink/StarRocks/EMR等): @Bill Zuo | @Hardy H, @Alex Xuan
-*   **大数据离线体系 & 阿里云 dataworks + maxcomputer & Hologres权限**: @Rocky Liu
+*   **大数据离线体系 & 阿里云 dataworks + maxcompute & Hologres权限**: @Bill Zuo @Rocky Liu
 *   **大数据监控**: @Bill Zuo, @Hardy H, @Alex Xuan
 *   **大数据离/在线、olap、列簇存储基础架构设计与维护**: @Bill Zuo, @Hardy H, @Alex Xuan
-*   **中间件运维** (保证 RocketMQ/RabbitMQ/Kafka/ELK/Canal/ZK 等组件稳定运行): @Lawrence Chen | @Rocky Liu
+*   **中间件实例运维** (保证 RocketMQ/RabbitMQ/Kafka/ELK/Canal/ZK 等中间件**实例**稳定运行：实例无法启动、broker 不可用、网络连通、集群扩容；**不含** SDK/客户端使用咨询 — 请见下方「公共组件找人专项指引」中的"消息队列 SDK 使用咨询"): @Lawrence Chen | @Rocky Liu
+    *   **中间件 SDK/实例分流（强制规则）**：当用户问题包含 `Kafka / RocketMQ / RabbitMQ / Pulsar` 等消息中间件关键词时，须先判断问题归属，再决定路由：
+        *   若问题中含明确**实例侧**限定词（`broker / 实例 / 集群不可用 / 无法启动 / 网络不通 / Topic 创建 / 扩分区`），路由到 **中间件实例运维**（步骤 2 → 22 类速查表 10a，主负责人 @Lawrence Chen）。
+        *   若问题中含明确**SDK 侧**限定词（`客户端 / SDK / 生产 / 消费 / 消费积压 / 发送 timeout / 序列化 / 客户端配置`），路由到 **公共组件 SDK 使用咨询**（步骤 2 → 22 类速查表 10b，主负责人 @Aiden Yang）。
+        *   若两类限定词均**未出现**或同时模糊命中（如"Kafka 出问题了"、"RocketMQ 有点异常"），**禁止单选其一**，须按下方「输出格式」场景 D 同时输出 10a 与 10b 的主负责人，由用户确认后再决定下一步。
 *   **基础设施即代码 (IaC / Terraform)**: @Night Liu | @Lexon Wang
 *   **公有云网络规划与实施**: @Jerry Jiang | @Daniel Xia, @Gavin Liu
 *   **EC2 实例管理** (开关机/Ansible初始化/维护): @Drew | @Liwin Xing
 *   **网络安全风险控制**: @Runner Zhang
 
-
 ### 稳定性和业务交付组 Site Reliability Engineering
 > **团队职责**：负责生产系统稳定性、业务自动化交付能力、开发测试环境治理、监控告警平台迭代，保障主站等核心系统可用性 99.9%，持续提供三端用户的使用体验。
 *   **团队负责人**: @Colin Kong
 *   **对接研发/安全/测试/运营等跨团队沟通**: @Ricardo.M.Wang
-*   **CDN与网络通道** (Cloudflare/Akamai/GA/CN2、静态资源、SEO排错): @Klaus Liu, @Ken Cai
+*   **CDN 配置与网络通道** (Cloudflare/Akamai **CDN 配置**/GA/CN2、静态资源、SEO 排错、回源配置；**不含** Akamai EdgeWorker 边缘安全脚本与风控规则 — 请见「Security Team / 移动终端安全类 / Akamai EdgeWorker」): @Klaus Liu, @Ken Cai
 *   **公有云基础网络组件** (LB、域名、证书、磁盘卷、安全组): @Ricardo.M.Wang
 *   **K8S 及云原生技术方案落地**: @Colin Kong 团队主导
 *   **环境部署与发布** (开发/测试/灰度/生产环境性能优化): @Zed Wang, @Chris Liu, @Scout, @Evan Yu
@@ -48,6 +51,7 @@
 
 
 ### DBA 组
+> **路由优先级（重要）**：所有**数据库相关**问题（关系型 RDS/MySQL、KV/Redis、文档型 MongoDB、分布式 TiDB、向量数据库、OLAP 列存等），无论用户是否带"云"前缀（如"云 Redis"、"云数据库"），均**优先**路由到 DBA 组。"公有云管理"仅处理云账号/VPC 网络/成本治理层面，不处理 DB 实例本身。
 > **团队职责**：数据库自动化运维平台建设、监控巡检、容灾备份方案落地、成本优化。
 *   **团队负责人**: @George Wang
 *   **云数据库 (RDS/Redis/MongoDB/TiDB等) 部署调优**: @Will Shen, @Gordon Yang, @Leo Lee
@@ -68,7 +72,7 @@
 *   **接口限制权限临时申请**: @Allen Yan
 *   **代码发布检测项白名单申请**: @Ethan Xu
 
-### 公共组件与中间件找人专项指引
+### 公共组件找人专项指引
 
 负责人：@Petter Li
 
@@ -76,7 +80,7 @@
 *   **RPC (Aeron / Netty)**: @Kelutral Lu, @Evan Lu
 *   **upex-reactive-feign**: @Kelutral Lu, @Evan Lu
 *   **网关** (业务网关 Cloud Gateway / 内部网关): @Evan Lu, @Aiden Yang
-*   **消息队列** (Kafka / RocketMQ 使用问题咨询): @Aiden Yang
+*   **消息队列 SDK 使用咨询** (Kafka / RocketMQ **客户端 SDK** 使用问题：生产/消费代码、序列化、客户端配置、消费积压排查、消息发送 timeout；**不含**实例 broker 故障 / 集群不可用 / 网络连通问题 — 请见基础设施架构组「中间件实例运维」): @Aiden Yang
 *   **ETCD**: @Kelutral Lu
 *   **common 包**: @Kelutral Lu
 *   **多泳道架构**: @Kent Zhang
@@ -85,37 +89,39 @@
 *   **监控与探针体系** (alterhook / pside-car): @Sayeed Feng, @Andy Song
 *   **基础服务模块** (Canal / Apollo / Eureka / XXL-Job / Skywalking / Nacos 等): @Sayeed Feng, @Lorgine Li
 *   **公共安全模块** (安全网关Shenyu / 统一权限 / 安全日志): @Evan Lu, @Andy Song
-*   **代码质量与工程体系** (CICD/Sonar/压测/混沌工程/安全扫描): @Evan Lu, @Kent Zhang
+*   **代码质量与工程体系** (Sonar/压测/混沌工程/安全扫描): @Evan Lu, @Kent Zhang
 
 
 ### 常见问题排查（速查表 + 历史工单 22 类高频问题）
 
-| # | 问题类别 / 场景 | 典型工单示例 / 备注 | 主负责人 | 备份负责人 |
-| :-- | :--- | :--- | :--- | :--- |
-| 1 | 应用发布/部署失败（Spug 平台） | "执行部署任务失败"、"spug 发布失败"、"测试环境 spug 部署失败"、"exec format error" | @Doge Huang / @Lucinda He / @Eric Kang / @Abel zhang | @Lucinda He / @Doge Huang / @Abel zhang / @Eric Kang |
-| 2 | 新服务 / 旗鱼工单后 Spug 看不到、权限申请 | "旗鱼通过后 spug 看不到服务"、"申请发布权限找不到服务" | @Doge Huang / @Lucinda He / @Eric Kang | @Abel zhang / @Doge Huang / @Lucinda He |
-| 3 | EKS / 容器 / K8s（Pod 启动、重启、调度） | "pod 一直重启"、"FailedScheduling"、"健康检查超时"、"OOMKilled"；容器环境服务问题优先找 Scout | @Chris Liu / @David Xu / @Evan Yu / @Zed Wang / @Scout | @David Xu / @Chris Liu / @Evan Yu / @Scout / @Zed Wang |
-| 4 | EC2 资源（机器申请/扩缩容/磁盘扩容/下线/文件上传下载） | "ec2 磁盘扩容"、"/dev/shm 扩容"、"换机型"、"ec2 下线"、"EC2 服务器上传/下载文件" | @Chris Liu / @David Xu / @Liwin Xing / @Rocky Liu / @Ives Gao | @David Xu / @Chris Liu / @Drew |
-| 4a | EC2 安装外部软件审批 | 属于网络运营安全过审范畴 | @Richard Yang | - |
-| 4b | 每周五确认下线机器清单 | - | @Rocky Liu | - |
-| 5 | 网络打通 / 安全组（G16、G19、跨 VPC、出口 IP 查询、跨云厂商打通） | "G16 工单"、"安全组打通"、"查询出网 IP"、"内网 deny 流量"；跨云厂商网络打通需提前与网络运营安全沟通 (@Richard Yang) | @Klaus Liu / @Daniel Xia / @Jerry Jiang / @Gavin Liu | @Ken Cai / @Jerry Jiang / @Gavin Liu / @Daniel Xia |
-| 6 | 域名 / Ingress / NLB（M28 工单、ingress 配置、域名 404/502） | "ingress 地址查询"、"M28 工单"、"web-xxx 502"、"接口 404" | @David Xu / @Klaus Liu / @Aiden Yang | @Chris Liu / @Ken Cai / @Evan Lu / @Evan Yu |
-| 7 | MySQL / 数据库权限、慢 SQL、扩容、archery 审批 | "申请数据库权限"、"慢查询"、"archery 401/408"、"建索引" | @George Wang / @Gordon Yang / @Will Shen | @Gordon Yang / @George Wang / @Will Shen（三人轮值） |
-| 8 | Redis 连接 / 扩容 / 集群模式确认 | "redis 连接失败"、"redis 扩容"、"测试环境 redis 不通" | @Gordon Yang / @George Wang / @Will Shen | @George Wang / @Gordon Yang / @Will Shen |
-| 9 | Canal / Binlog 同步异常 | "canal 任务无法启动"、"binlog 同步问题"、"canal 延迟" | @Andy Song / @Sayeed Feng / @Lawrence Chen | @Sayeed Feng / @Andy Song / @Kyle Yang / @Rocky Liu |
-| 10 | Kafka / RocketMQ（消费积压、Topic、消息发送失败） | "kafka topic 告警"、"rocketmq 不消费"、"消息发送 timeout" | @Lawrence Chen / @Aiden Yang / @Sayeed Feng | @Rocky Liu / @Evan Lu / @Andy Song |
-| 11 | Apollo（配置中心连接 / 权限 / portal 登录） | "apollo 读取 404"、"apollo portal 部署失败"、"权限申请" | @Andy Song / @Sayeed Feng / @Lawrence Chen | @Sayeed Feng / @Andy Song / @Rocky Liu |
-| 12 | 网关(鉴权、路由、超时、403/404) | "网关 502"、"接口 403"、"errorCode 多语言"、"路由不生效" | @Aiden Yang / @Evan Lu | @Evan Lu / @Aiden Yang（互为主备） |
-| 13 | 告警规则（alerthook、值班人、阈值调整、误报处理、下线机器关闭告警、电话） | "alerthook 找不到人"、"修改阈值"、"批量去除告警人"、"P1 没打电话"；下线机器需在下线前提前告知 | @Sayeed Feng / @Andy Song / @Alex Yu / @Rock Yu | @Andy Song / @Kyle Yang / @Sayeed Feng / @Rock Yu |
-| 14 | 监控大盘 / Grafana / Prometheus 指标采集 | "grafana 看不到指标"、"prometheus 上报异常"、"pod 监控面板" | @Alex Yu / @Rock Yu / @Jeremy.Qiao | @Rock Yu / @Jeremy.Qiao / @Alex Yu |
-| 15 | JumpServer / 堡垒机（登录失败、被禁用、账号权限异常、机器授权） | "jumpserver 登录不上"、"账号被禁用"、"无法选机器" | @Ricardo.M.Wang / @Toka Wu / @Frank Chang / @Sunway Zhong / @Jason.cui | @Cody Guo（部分单无备份） |
-| 16 | 大数据 / StarRocks / DataWorks / Flink | "starrocks publish partition 失败"、"dataworks 同步异常"、"flink 节点组" | @Bill Zuo / @Alex Xuan / @Hardy H | @Alex Xuan / @Hardy H / @Bill Zuo |
-| 17 | LiteLLM（生产/测试配置、超时、重启、加模型） | "litellm 配置修改"、"litellm 504"、"重启 litellm service" | @Evan Yu / @David Xu / @Chris Liu / @Scout / @Zed Wang | @David Xu / @Chris Liu / @Evan Yu / @Zed Wang / @Scout |
-| 18 | GitLab / CI / CodeReview / SonarQube 流水线 | "gitlab 不能合并"、"sonar 检测不过"、"CI 缓存"、"GPG code review 不生效" | @Evan Lu / @Andy Song | @Andy Song / @Evan Lu |
+| # | 问题类别 / 场景                                            | 典型工单示例 / 备注 | 主负责人 | 备份负责人 |
+| :-- |:-----------------------------------------------------| :--- | :--- | :--- |
+| 1 | CICD/应用发布/部署失败（Spug 平台）                              | "执行部署任务失败"、"spug 发布失败"、"测试环境 spug 部署失败"、"exec format error" | @Doge Huang / @Lucinda He / @Eric Kang / @Abel zhang | @Lucinda He / @Doge Huang / @Abel zhang / @Eric Kang |
+| 2 | 新服务 / 旗鱼工单后 Spug 看不到、权限申请                            | "旗鱼通过后 spug 看不到服务"、"申请发布权限找不到服务" | @Doge Huang / @Lucinda He / @Eric Kang | @Abel zhang / @Doge Huang / @Lucinda He |
+| 3 | EKS / 容器 / K8s（Pod 启动、重启、调度）                         | "pod 一直重启"、"FailedScheduling"、"健康检查超时"、"OOMKilled"；容器环境服务问题优先找 Scout | @Chris Liu / @David Xu / @Evan Yu / @Zed Wang / @Scout | @David Xu / @Chris Liu / @Evan Yu / @Scout / @Zed Wang |
+| 4 | EC2 资源（机器申请/扩缩容/磁盘扩容/下线/文件上传下载）                      | "ec2 磁盘扩容"、"/dev/shm 扩容"、"换机型"、"ec2 下线"、"EC2 服务器上传/下载文件" | @Chris Liu / @David Xu / @Liwin Xing / @Rocky Liu / @Ives Gao | @David Xu / @Chris Liu / @Drew |
+| 4a | EC2 安装外部软件审批                                         | 属于网络运营安全过审范畴 | @Richard Yang | - |
+| 4b | 每周五确认下线机器清单                                          | - | @Rocky Liu | - |
+| 5 | 网络打通 / 安全组（G16、G19、跨 VPC、出口 IP 查询、跨云厂商打通）            | "G16 工单"、"安全组打通"、"查询出网 IP"、"内网 deny 流量"；跨云厂商网络打通需提前与网络运营安全沟通 (@Richard Yang) | @Klaus Liu / @Daniel Xia / @Jerry Jiang / @Gavin Liu | @Ken Cai / @Jerry Jiang / @Gavin Liu / @Daniel Xia |
+| 6 | 域名 / Ingress / NLB（M28 工单、ingress 配置、域名 404/502）     | "ingress 地址查询"、"M28 工单"、"web-xxx 502"、"接口 404" | @David Xu / @Klaus Liu / @Aiden Yang | @Chris Liu / @Ken Cai / @Evan Lu / @Evan Yu |
+| 7 | MySQL / 数据库权限、慢 SQL、扩容、archery 审批                    | "申请数据库权限"、"慢查询"、"archery 401/408"、"建索引" | @George Wang / @Gordon Yang / @Will Shen | @Gordon Yang / @George Wang / @Will Shen（三人轮值） |
+| 8 | Redis 连接 / 扩容 / 集群模式确认                               | "redis 连接失败"、"redis 扩容"、"测试环境 redis 不通" | @Gordon Yang / @George Wang / @Will Shen | @George Wang / @Gordon Yang / @Will Shen |
+| 9 | Canal / Binlog 同步异常                                  | "canal 任务无法启动"、"binlog 同步问题"、"canal 延迟" | @Andy Song / @Sayeed Feng / @Lawrence Chen | @Sayeed Feng / @Andy Song / @Kyle Yang / @Rocky Liu |
+| 10a | Kafka / RocketMQ **实例运维**（broker 不可用、实例无法启动、集群告警、网络连通、Topic 创建/扩分区） | "kafka broker down"、"rocketmq 集群不可用"、"kafka topic 告警（实例侧）" | @Lawrence Chen / @Rocky Liu | @Rocky Liu / @Lawrence Chen |
+| 10b | Kafka / RocketMQ **SDK 使用**（客户端代码、消费积压、消息发送失败/timeout、序列化、客户端配置） | "rocketmq 不消费"、"消息发送 timeout"、"client 配置咨询"、"消费积压排查" | @Aiden Yang / @Sayeed Feng | @Evan Lu / @Andy Song |
+| 10  | Kafka / RocketMQ（**未指明实例 vs SDK** 时的兜底，应同时返回 10a 与 10b 负责人由用户确认） | "Kafka 出问题了"、"RocketMQ 有点异常"（无明确 broker / client 描述） | 同时输出 10a 与 10b 主负责人 | 同时输出 10a 与 10b 备份负责人 |
+| 11 | Apollo（配置中心连接 / 权限 / portal 登录）                      | "apollo 读取 404"、"apollo portal 部署失败"、"权限申请" | @Andy Song / @Sayeed Feng / @Lawrence Chen | @Sayeed Feng / @Andy Song / @Rocky Liu |
+| 12 | 网关(鉴权、路由、超时、403/404)                                 | "网关 502"、"接口 403"、"errorCode 多语言"、"路由不生效" | @Aiden Yang / @Evan Lu | @Evan Lu / @Aiden Yang（互为主备） |
+| 13 | 告警规则（alerthook、值班人、阈值调整、误报处理、下线机器关闭告警、电话）            | "alerthook 找不到人"、"修改阈值"、"批量去除告警人"、"P1 没打电话"；下线机器需在下线前提前告知 | @Sayeed Feng / @Andy Song / @Alex Yu / @Rock Yu | @Andy Song / @Kyle Yang / @Sayeed Feng / @Rock Yu |
+| 14 | 监控大盘 / Grafana / Prometheus 指标采集                     | "grafana 看不到指标"、"prometheus 上报异常"、"pod 监控面板" | @Alex Yu / @Rock Yu / @Jeremy.Qiao | @Rock Yu / @Jeremy.Qiao / @Alex Yu |
+| 15 | JumpServer / 堡垒机（登录失败、被禁用、账号权限异常、机器授权）               | "jumpserver 登录不上"、"账号被禁用"、"无法选机器" | @Ricardo.M.Wang / @Toka Wu / @Frank Chang / @Sunway Zhong / @Jason.cui | @Cody Guo（部分单无备份） |
+| 16 | 大数据 / StarRocks / DataWorks / Flink                  | "starrocks publish partition 失败"、"dataworks 同步异常"、"flink 节点组" | @Bill Zuo / @Alex Xuan / @Hardy H | @Alex Xuan / @Hardy H / @Bill Zuo |
+| 17 | LiteLLM（生产/测试配置、超时、重启、加模型）                           | "litellm 配置修改"、"litellm 504"、"重启 litellm service" | @Evan Yu / @David Xu / @Chris Liu / @Scout / @Zed Wang | @David Xu / @Chris Liu / @Evan Yu / @Zed Wang / @Scout |
+| 18 | GitLab / CI / CodeReview / SonarQube 流水线             | "gitlab 不能合并"、"sonar 检测不过"、"CI 缓存"、"GPG code review 不生效" | @Evan Lu / @Andy Song | @Andy Song / @Evan Lu |
 | 19 | AWS / 阿里云权限与 Role（KMS、SecretsManager、AssumeRole、ECR） | "AssumeRole 失败"、"KMS Decrypt 无权限"、"SecretsManager 申请"、"阿里云权限" | @Rocky Liu / @Evan Su / @Ives Gao | @Ives Gao / @Rocky Liu / @Evan Su |
-| 20 | 办公 / VPN / EAA / 二次验证 / Yubikey / Cursor | "eaa 登录失败"、"yubikey 不能用"、"cursor 连不上"、"yapi 登录不上" | @Toka Wu / @Lutzow Guo / @Colin Kong | @Colin Kong / @Herry Wang / @Toka Wu |
-| 21 | 测试环境报错（如 6616 问题） | 容器环境服务问题优先找 Scout | @Kevin Li / @Herry Wang | - |
-| 22 | 日常办公 IT（如 Mac 桌面问题） | 自身办公设备问题 | @Winking Wang | - |
+| 20 | 办公 / VPN / EAA / 二次验证 / Yubikey / Cursor             | "eaa 登录失败"、"yubikey 不能用"、"cursor 连不上"、"yapi 登录不上" | @Toka Wu / @Lutzow Guo / @Colin Kong | @Colin Kong / @Herry Wang / @Toka Wu |
+| 21 | 测试环境报错（如 6616 问题）                                    | 容器环境服务问题优先找 Scout | @Kevin Li / @Herry Wang | - |
+| 22 | 日常办公 IT（如 Mac 桌面问题）                                  | 自身办公设备问题 | @Winking Wang | - |
 
 ## 区块链部门 BlockChain Team
 
@@ -173,7 +179,7 @@
 
 | 业务 | 人员 |
 | --- | --- |
-| Akamai EdgeWorker（appapi.bitgetapp.com 大规模 403） | @Snow Chen |
+| Akamai EdgeWorker（**边缘安全脚本 / 风控规则 / WAF 规则**；**不含** Akamai CDN 配置、回源、缓存策略 — 请见 SRE 稳定性组「CDN 配置与网络通道」） | @Snow Chen |
 | 高风险设备拦截（注册、提币） | @Peter Jiang、@Evan Lu、@Elsa Huang |
 | APP 快捷提币页面返回 403 | @Jesse.Cao |
 | 安全数据异常（opensearch、kafka 积压） | @Xuxiaofan |
