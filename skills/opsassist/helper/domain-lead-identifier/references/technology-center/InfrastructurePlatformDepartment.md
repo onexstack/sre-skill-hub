@@ -106,9 +106,10 @@
 *   **代码发布检测项白名单申请**: @Ethan Xu
 
 ### Lark 审批指引地图
-*   N20 申请/升降配数据库
-*   N34 云平台账号/(AK/SK)/Role/SSo
-*   N17 BG EAA应用入口或账号权限开通申请
+*   N20 申请/升降配数据库(MongoDB/TiDB/DocumentDB/Postgres/Neptune/Mysql)
+*   N15 申请/升降配数据库(Redis/MemoryDB/ElasticCache)
+*   N34 云平台账号/(AK/SK)/Role/SSO
+*   N17 EAA应用入口或账号权限开通申请
 *   N30 测试环境访问权限申请
 *   N102 LiteLLM账号申请、密码重置
 *   M27 Jfrog访问权限&组件加白申请
