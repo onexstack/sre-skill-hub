@@ -1,0 +1,81 @@
+---
+name: find-root-cause
+description: 服务异常诊断。Pod/服务相关异常时触发，包括：起不来、启动失败、一直重启、CrashLoop、Pending、OOMKilled、部署失败、镜像拉取失败、发布失败、容器异>常、pod 挂了、服务挂了。自动拉取 Pod 状态和事件，分路径定位根因，区分研发问题和运维问题，需要运维介入时自动创建 oncall 工单。
+---
+
+# EKS Pod 异常诊断
+
+## 什么时候使用该 SKILL
+
+- 检查下服务异常
+- 服务启动不了
+- 为什么服务无法访问
+- xxxx
+
+- Investigating pod failures (CrashLoopBackOff, ImagePullBackOff, Pending, etc.)
+- Responding to production incidents or outages
+- Troubleshooting cluster health issues
+- Diagnosing networking or service connectivity problems
+- Investigating storage/volume issues
+- Analyzing performance degradation
+- Conducting post-incident analysis
+
+## 故障诊断流程
+
+Follow this systematic approach for any Kubernetes issue:
+
+### 1. Gather Context
+
+- What is the observed symptom?
+- When did it start?
+- What changed recently (deployments, config, infrastructure)?
+- What is the scope (single pod, service, node, cluster)?
+- What is the business impact (severity level)?
+
+### 2. Deep Dive Investigation
+
+### 3. Identify Root Cause
+
+Consult references/common_issues.md for detailed information on:
+
+- ImagePullBackOff / ErrImagePull
+- CrashLoopBackOff
+- Pending Pods
+- OOMKilled
+- Node issues (NotReady, DiskPressure)
+- Networking failures
+- Storage/PVC issues
+- Resource quotas and throttling
+- RBAC permission errors
+
+Each issue includes:
+
+- Symptoms
+- Common causes
+- Diagnostic commands
+- Remediation steps
+- Prevention strategies
+
+### 4. Apply Remediation
+Follow remediation steps from common_issues.md based on root cause identified.
+
+Always:
+
+- Test fixes in non-production first if possible
+- Document actions taken
+- Monitor for effectiveness
+- Have rollback plan ready
+
+### 步骤 1：信息处理
+
+
+### 步骤 2：定位精准信息
+
+### 步骤 3：按需拉取数据
+
+### 步骤 4：分析根因，输出结论
+
+
+
+
+
