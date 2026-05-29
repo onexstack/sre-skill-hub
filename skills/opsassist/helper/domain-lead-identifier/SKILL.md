@@ -24,7 +24,7 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 2. **IP → `/ec2 <ip>`**：把识别到的 IPv4 作为参数执行 `/ec2 <ip>`，例如 `/ec2 10.247.10.175`。
 3. **多实体处理**：若用户一次给出多个服务名或 IP，逐个执行命令并按"输出格式"场景 E 汇总返回；若混合服务名 + IP，分别走对应命令。
 4. **结果判定**：
-   - **命中**：命令返回了明确的服务负责人 → 直接按"输出格式"场景 A（或 E，多实体）输出，**不再执行后续步骤**。
+   - **命中**：命令返回了明确的服务负责人 → 直接按"输出格式"场景 E（或 F 或 G）输出，**不再执行后续步骤**。
    - **未命中**：命令未返回结果、返回空、或返回提示异常 → 立即终止步骤 0，回退到 **步骤 1** 继续按值班模块 → 组织架构 → 知识库 → 人工兜底的完整链路处理。
 
 **注意**：步骤 0 仅做"精确实体直查"，不替代步骤 2 的组织架构路由。例如用户问"Apollo 谁负责"虽然含有产品名，但 Apollo 不是 `<前缀>-<段>-<段>` 形式的服务名，不触发步骤 0；这类应继续走步骤 1 / 2。
@@ -170,7 +170,7 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 1. 识别到服务名信号 `sre-os-apiserver` + 找人意图 → 进入步骤 0。
 2. 调用 `/pod sre-os-apiserver`，命令返回: `服务负责人: @李四`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`
 
-**最终回复（场景 A）：**
+**最终回复（场景 E）：**
 **匹配结果：** 已为您匹配到服务 `sre-os-apiserver`，当前服务的相关信息：`服务负责人: @李四`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`。
 
 ---
@@ -180,7 +180,7 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 1. 正则识别到 IPv4 `10.247.10.175` + 找人意图 → 进入步骤 0。
 2. 调用 `/ec2 10.247.10.175`，命令返回: `服务负责人: Wes Wang`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`
 
-**最终回复（场景 A）：**
+**最终回复（场景 F）：**
 **匹配结果：** 已为您匹配到 IP `10.247.10.175`，`服务负责人: Wes Wang`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`。
 
 ## 注意事项
