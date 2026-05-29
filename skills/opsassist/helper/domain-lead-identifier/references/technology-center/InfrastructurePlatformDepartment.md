@@ -23,16 +23,16 @@
 
 **团队负责人**: @Runner Zhang
 
-*   **公有云管理** (AWS/Aliyun/HuaweiCloud/BytePlus/云账号权限/VPC/成本治理/自动化巡检/STS/KMS/SecretsManager): @Ives Gao, @Evan Su, Russell Han, @Rocky Liu
-*   **大数据** (Spark/Hadoop/Flink/StarRocks/EMR/DataWorks/MaxCompute/Hologres/离线计算/实时计算/列簇存储/olap引擎/调度平台/HUE): @Bill Zuo, @Hardy H, @Alex Xuan
+*   **公有云管理** (AWS/阿里云/AlibabaCloud/HuaweiCloud/BytePlus/腾讯云账号权限/AWS账号权限/VPC/云服务成本治理/自动化巡检/STS/KMS/SecretsManager): @Ives Gao, @Evan Su, Russell Han, @Rocky Liu, 最终请通过执行 `/oncall --list` 找对应的 `cloud` 模块人员 
+*   **大数据** (Spark/Hadoop/Flink/StarRocks/EMR/DataWorks/MaxCompute/Hologres/离线计算/实时计算/列簇存储/olap引擎/调度平台/HUE): @Bill Zuo, @Hardy H, @Alex Xuan, 最终请通过执行 `/duty` 找对应的 `大数据` 小组值班人员
 *   **中间件实例运维** (保证 RocketMQ/RabbitMQ/Kafka/ELK/Canal/ZK 等中间件**实例**稳定运行：实例无法启动、broker 不可用、网络连通、集群扩容等实例相关问题；**不含** SDK/客户端使用咨询 — 请见下方「基础架构」中的"消息队列 SDK 使用咨询"): @Lawrence Chen , @Rocky Liu
     *   **中间件 SDK/实例分流（强制规则）**：当用户问题包含 `Kafka / RocketMQ / RabbitMQ / Pulsar` 等消息中间件关键词时，须先判断问题归属，再决定路由：
         *   若问题中含明确**实例侧**限定词（`broker / 实例 / 集群不可用 / 无法启动 / 网络不通 / Topic 创建 / 扩分区`），路由到 **中间件实例运维**。
         *   若问题中含明确**SDK 侧**限定词（`客户端 / SDK / 生产 / 消费 / 消费积压 / 发送 timeout / 序列化 / 客户端配置`），路由到 **公共组件 SDK 使用咨询**。
         *   若两类限定词均**未出现**或同时模糊命中（如"Kafka 出问题了"、"RocketMQ 有点异常"），**禁止单选其一**，须按下方「输出格式」场景 D 同时输出 10a 与 10b 的主负责人，由用户确认后再决定下一步。
-*   **基础设施即代码 (IaC / Terraform)**: @Night Liu, @Lexon Wang
-*   **公有云网络规划与实施**:  (网络方案对接/规划/公有云网络日常网络维护) @Jerry Jiang, @Daniel Xia, @Gavin Liu
-*   **服务器实例管理** (开关机/Ansible初始化/服务器维护/服务器异常/服务器回收/服务器新增服务/EC2/ECS/CVM): @Drew, @Liwin Xing
+*   **基础设施即代码 (IaC / Terraform)**: @Night Liu, @Lexon Wang, 最终请通过执行 `/duty` 找对应的 `IAC工单自动化支持` 小组值班人员
+*   **网络规划与实施**:  (网络方案对接/规划/网络日常网络维护) @Jerry Jiang, @Daniel Xia, @Gavin Liu, 最终请通过执行 `/duty` 找对应的 `网络` 小组值班人员
+*   **服务器实例管理** (开关机/Ansible初始化/服务器维护/服务器异常/服务器回收/服务器新增服务/EC2/ECS/CVM): @Drew, @Liwin Xing, 最终请通过执行 `/duty` 找对应的 `服务器增加/下线` 小组值班人员
 *   **对象存储** (S3/Bucket/桶): @Rocky Liu
 *   **日志平台** (ELK日志平台/OpenObserve日志平台): @Lawrence Chen
 
@@ -41,11 +41,11 @@
 
 **团队负责人**: @Colin Kong
 
-*   **生产环境网络可用性和性能优化、全球加速通道GA、CN2、、SEO、CDN（cloudflare/akamai/cloudfront）、图片裁剪服务、DNS解析**: @Klaus Liu
-*   **GTM、HttpDNS、国内外线路通道、ad-nginx和安全网关、混沌工程、故障复盘**: @Ken Cai
+*   **生产环境网络可用性和性能优化、全球加速通道GA、CN2、、SEO、CDN(cloudflare/akamai/cloudfront)、图片裁剪服务、DNS解析**: @Klaus Liu, 最终请通过执行 `/duty` 找对应的 `运维网关` 小组值班人员
+*   **GTM、HttpDNS、国内外线路通道、ad-nginx和安全网关、混沌工程、故障复盘**: @Ken Cai, 最终请通过执行 `/duty` 找对应的 `运维网关` 小组值班人员
 *   **域名和证书管理** : @Ricardo.M.Wang
 *   **openresty-edge、域名解析配置、Saas2、Stealth、Whale、Jenkins** : @Cody Guo
-*   **公有云基础网络组件** (LB、域名、证书、磁盘卷、安全组): @Ricardo.M.Wang
+*   **基础网络组件** (LB、域名、证书、安全组): @Ricardo.M.Wang
 *   **BKE** : @Lutzow Guo, @Herry Wang，最终请通过执行 `/duty` 找对应的 `BKE平台` 小组值班人员
 *   **运维网关** @Ricardo.M.Wang, @Cody Guo，最终请通过执行 `/duty` 找对应的 `运维网关` 小组值班人员
 *   **网络** @Jerry Jiang, @Gavin Liu ，最终请通过执行 `/duty` 找对应的 `网络` 小组值班人员
@@ -59,6 +59,7 @@
     *   JumpServer日常值班: @Ricardo.M.Wang @Sunway Zhong
     *   AI智能运维: @Toka Wu
 
+最终请通过 `/duty` 找对应的 `模块` 小组值班人员, 如果需要拉人，请通过 `/invite <模块>` 拉取对应的值班人员
 
 ### DBA
 > **团队职责**：数据库自动化运维平台建设、监控巡检、容灾备份方案落地、数据库成本优化
@@ -86,7 +87,7 @@
 *   **Common包**: @Kelutral Lug, 最终请通过执行 `/duty` 找对应的 `common包相关` 小组值班人员
 *   **代码质量与工程体系** (Sonar/CheckStyle/压测/混沌工程/安全扫描/gitlab安全自动扫描): @Evan Lu, @Kent Zhang, 最终请通过执行 `/duty` 找对应的 `压测平台 / 故障注入` 小组值班人员
 *   **Redis/Jedis/Lettuce SDK**: @Aiden Yang @Kelutral Lu
-*   **upex-reactive-feign**: @Kelutral Lu, @Evan Lu, 最终请通过执行 `/duty` 找对应的 `reactive-feign 相关` 小组值班人员
+*   **reactive-feign**: @Kelutral Lu, @Evan Lu, 最终请通过执行 `/duty` 找对应的 `reactive-feign 相关` 小组值班人员
 *   **RPC (Aeron / Netty)**: @Kelutral Lu, @Evan Lu, 最终请通过执行 `/duty` 找对应的 `rpc` 小组值班人员
 *   **Kafka/RocketMQ SDK**：**不含**实例 broker 故障 / 集群不可用 / 网络连通问题 — 请见基础设施运维组「中间件实例运维」): @Aiden Yang, 最终请通过执行 `/duty` 找对应的 `kafka & rocketmq` 小组值班人员
 *   **ETCD SDK**: @Kelutral Lu
@@ -106,20 +107,25 @@
 *   **代码发布检测项白名单申请**: @Ethan Xu
 
 ### Lark 审批指引地图
-*   N20 申请/升降配数据库
-*   N34 云平台账号/(AK/SK)/Role/SSo
-*   N17 BG EAA应用入口或账号权限开通申请
+*   N05 存储桶申请（S3/OSS）
+*   N09 新域名和https证书申请
+*   N15 申请/升降配数据库(Redis/MemoryDB/ElasticCache)
+*   N17 EAA应用入口或账号权限开通申请
+*   N20 申请/升降配数据库(MongoDB/TiDB/DocumentDB/Postgres/Neptune/Mysql)
+*   N22 SecretsManager申请
 *   N30 测试环境访问权限申请
+*   N34 云平台账号/(AK/SK)/Role/SSO
+*   N35 数据库资源下线
 *   N102 LiteLLM账号申请、密码重置
 *   M27 Jfrog访问权限&组件加白申请
 *   M29 运维门户等安全运维内部应用平台权限申请
 *   M82 云枢网络白名单申请, 比如本地访问 github.com
 *   G09 OpenSearch账号申请或已有账号权限变更
-*   G23 JumpServer 用户创建申请(申请后7天内不绑定MFA需要重新申请G23)
 *   G20 JumpServer 资产授权申请
-*   G33 JumpServer 资产访问时长申请
+*   G23 JumpServer 用户创建申请(申请后7天内不绑定MFA需要重新申请G23)
 *   G27 JumpServer 重置MFA和解锁用户
-*   G131 BKE 集群权限申请
+*   G33 JumpServer 资产访问时长申请
+*   G131 BKE 集群权限申请‘
 
 ## 区块链部门 BlockChain Team
 
