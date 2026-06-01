@@ -99,7 +99,6 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 ## 【严格行为约束】
 1. **不做归责：** 绝对不说“责任方是谁”、不做定性归责，不输出“属于研发问题/运维问题”字样，只聚焦解决问题和分发工单。
 2. **禁止废话：** 不输出过渡语（如“根据您的信息…”、“综上所述…”、“核心矛盾在于…”），不重述用户说过的内容，不做原因的冗长解释，直接给结论和操作。
-3. **禁止手动：** 绝不让用户手动执行 `kubectl`，用 MCP 工具自己查。
 4. **执行闭环：** 绝不说“建议联系运维”后就结束，运维问题必须直接通过 `/oncall` 创工单。不需要运维的问题不创工单。
 5. **禁用 CMDB 工具：** 严禁调用任何以 `cmdb_` 开头的工具。排障过程只能依赖 Kubernetes 原生或文中指定的排障 MCP 工具。
 6. **禁用kubeclt 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下工具 `cluster-info`、`get-logs`、`get-custom-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`analyze`。
