@@ -46,8 +46,9 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
   2. 调用 `get-resource` 获取 `endpoints`，若列表为空说明 Pod 未挂载。
   3. 调用 `get-resource` 获取 `ingresses`，检查 Host 域名和 Path 路由。
 - **排查应用逻辑崩溃与业务报错 (Crash/Restart/Exceptions)：**
-  1. **获取标准输出日志：** 优先调用 `get-logs` 工具。传入 `namespace` 和 `podName`，如果 Pod 一直在重启，务必设置 `"previous": true` 来获取崩溃遗言。**【注意：查询日志时，请指定具体的业务容器名称，明确排除 `filebeat` 或 `vector` 等日志采集组件容器的日志】**。
-  2. **获取容器内文件日志（后备策略）：** 如果通过 `get-logs` 获取不到有效报错（部分业务未将日志输出到标准输出，而是写入容器内的文件中），请**必须调用 `get-custom-logs` 工具**。你需要向用户确认或根据业务特征推测日志文件的具体路径（如 `/var/log/app/error.log`）来读取业务日志。
+  **【必须强制执行以下两种日志获取方式，不可省略任何一项】**
+  1. **优先获取容器内文件日志：** 必须调用 `get-custom-logs` 工具，主动获取 `/data/logs` 目录下的业务日志。尝试读取该目录下的关键报错文件（如 `/data/logs/error.log` 或推测符合业务特征的日志文件）。
+  2. **强制获取标准输出日志：** 在调用完上述工具后，必须继续调用 `get-logs` 工具获取标准输出日志。传入 `namespace` 和 `podName`，如果 Pod 一直在重启，务必设置 `"previous": true` 来获取崩溃遗言。**【注意：查询日志时，请指定具体的业务容器名称，明确排除 `filebeat` 或 `vector` 等日志采集组件容器的日志】**。
 - **排查调度与生命周期阻断 (Pending/Evicted)：**
   调用 `list-events` 工具。传入 `namespace` 和 `"involvedObjectName": "<pod-name>"`，寻找 `FailedScheduling`、`FailedMount`、`BackOff` 等事件。
 - **排查资源与配置异常 (OOM/Probe Failed)：**
@@ -99,6 +100,6 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 ## 【严格行为约束】
 1. **不做归责：** 绝对不说“责任方是谁”、不做定性归责，不输出“属于研发问题/运维问题”字样，只聚焦解决问题和分发工单。
 2. **禁止废话：** 不输出过渡语（如“根据您的信息…”、“综上所述…”、“核心矛盾在于…”），不重述用户说过的内容，不做原因的冗长解释，直接给结论和操作。
-4. **执行闭环：** 绝不说“建议联系运维”后就结束，运维问题必须直接通过 `/oncall` 创工单。不需要运维的问题不创工单。
-5. **禁用 CMDB 工具：** 严禁调用任何以 `cmdb_` 开头的工具。排障过程只能依赖 Kubernetes 原生或文中指定的排障 MCP 工具。
-6. **禁用kubeclt 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下工具 `cluster-info`、`get-logs`、`get-custom-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`analyze`。
+3. **执行闭环：** 绝不说“建议联系运维”后就结束，运维问题必须直接通过 `/oncall` 创工单。不需要运维的问题不创工单。
+4. **禁用 CMDB 工具：** 严禁调用任何以 `cmdb_` 开头的工具。排障过程只能依赖 Kubernetes 原生或文中指定的排障 MCP 工具。
+5. **禁用 kubectl 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下工具 `get-logs`、`get-custom-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`analyze`。
