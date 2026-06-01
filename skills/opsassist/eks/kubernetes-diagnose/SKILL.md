@@ -46,9 +46,7 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
   2. 调用 `get-resource` 获取 `endpoints`，若列表为空说明 Pod 未挂载。
   3. 调用 `get-resource` 获取 `ingresses`，检查 Host 域名和 Path 路由。
 - **排查应用逻辑崩溃与业务报错 (Crash/Restart/Exceptions)：**
-  **【必须强制执行以下两种日志获取方式，不可省略任何一项】**
-  1. **优先获取容器内文件日志：** 必须调用 `get-custom-logs` 工具，主动获取 `/data/logs` 目录下的业务日志。尝试读取该目录下的关键报错文件（如 `/data/logs/error.log` 或推测符合业务特征的日志文件）。
-  2. **强制获取标准输出日志：** 在调用完上述工具后，必须继续调用 `get-logs` 工具获取标准输出日志。传入 `namespace` 和 `podName`，如果 Pod 一直在重启，务必设置 `"previous": true` 来获取崩溃遗言。**【注意：查询日志时，请指定具体的业务容器名称，明确排除 `filebeat` 或 `vector` 等日志采集组件容器的日志】**。
+  1. 调用 `get-unified-logs` 工具获取日志。传入 `namespace` 和 `podName`，如果 Pod 一直在重启，务必设置 `"previous":true` 来获取崩溃遗言。**【注意：查询日志时，请指定具体的业务容器名称，明确排除 `filebeat` 或 `vector` 等日志采集组件容器的日志。禁止调用 `get-logs` 和 `get-custom-logs` 工具】**。
 - **排查调度与生命周期阻断 (Pending/Evicted)：**
   调用 `list-events` 工具。传入 `namespace` 和 `"involvedObjectName": "<pod-name>"`，寻找 `FailedScheduling`、`FailedMount`、`BackOff` 等事件。
 - **排查资源与配置异常 (OOM/Probe Failed)：**
