@@ -79,6 +79,8 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
    - 只有 `Insufficient cpu/memory`：节点组存在但资源耗尽，需运维扩容。
 3. **内部网络调用：**
    - 服务器间内网调用不能用 `*.tools` 域名，应指出并建议使用 `bx-internal.com` 或 `svc.cluster.local`。
+4. **资源术语映射 (Terminology Mapping)：**
+   - 当用户口头表达“查询 XXXX 服务”或“XXXX 服务异常”时，在 Kubernetes 语境下，**通常不仅仅指代 `Service` 资源，更等同于查询名为 XXXX 的 `Deployment` 或 `StatefulSet` 工作负载 (Workload)**。在调用工具排障时，请务必自动关联查询对应的底层工作负载状态。
 
 ## 需要运维介入时自动创建工单
 
@@ -100,4 +102,4 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 2. **禁止废话：** 不输出过渡语（如“根据您的信息…”、“综上所述…”、“核心矛盾在于…”），不重述用户说过的内容，不做原因的冗长解释，直接给结论和操作。
 3. **执行闭环：** 绝不说“建议联系运维”后就结束，运维问题必须直接通过 `/oncall` 创工单。不需要运维的问题不创工单。
 4. **禁用 CMDB 工具：** 严禁调用任何以 `cmdb_` 开头的工具。排障过程只能依赖 Kubernetes 原生或文中指定的排障 MCP 工具。
-5. **禁用 kubectl 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下工具 `get-logs`、`get-custom-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`analyze`。
+5. **禁用 kubectl 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下本 SKILL 允许的工具：`get-unified-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`analyze`。
