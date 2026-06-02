@@ -46,7 +46,7 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
   2. 调用 `get-resource` 获取 `endpoints`，若列表为空说明 Pod 未挂载。
   3. 调用 `get-resource` 获取 `ingresses`，检查 Host 域名和 Path 路由。
 - **排查应用逻辑崩溃与业务报错 (Crash/Restart/Exceptions)：**
-  1. 调用 `get-unified-logs` 工具获取日志。传入 `namespace` 和 `podName`，如果 Pod 一直在重启，务必设置 `"previous":true` 来获取崩溃遗言。**【注意：查询日志时，请指定具体的业务容器名称，明确排除 `filebeat` 或 `vector` 等日志采集组件容器的日志。禁止调用 `get-logs` 和 `get-custom-logs` 工具】**。
+  1. 调用 `get-unified-logs` 工具获取日志。传入 `namespace`、`podName`和 `path`，其中 `path` 固定为 `/data/logs`。如果 Pod 一直在重启，务必设置 `"previous":true` 来获取崩溃遗言。**【注意：查询日志时，请指定具体的业务容器名称，明确排除 `filebeat` 或 `vector` 等日志采集组件容器的日志。禁止调用 `get-logs` 和 `get-custom-logs` 工具】**。
 - **排查调度与生命周期阻断 (Pending/Evicted)：**
   调用 `list-events` 工具。传入 `namespace` 和 `"involvedObjectName": "<pod-name>"`，寻找 `FailedScheduling`、`FailedMount`、`BackOff` 等事件。
 - **排查资源与配置异常 (OOM/Probe Failed)：**
