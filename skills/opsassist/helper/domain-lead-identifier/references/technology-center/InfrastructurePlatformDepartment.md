@@ -74,7 +74,6 @@
 
 最终请通过 `/duty` 找对应的 `数据库` 小组值班人员, 如果需要拉人，请通过 `/invite dba` 拉取对应的值班人员
 
-
 ### 基础架构(Performance Optimisation Team)
 
 **团队负责人**: @Petter Li
@@ -96,7 +95,10 @@
 
 ### Gitlab 专项负责人地图
 
-*   **权限管理 / SSH Key / Token / Runner 配置**: @Ricardo.M.Wang
+*   **权限管理 / SSH Key / Token 配置**: @Ricardo.M.Wang
+*   **Bitget(BG) Gitlab runner 的负责人** @Chris Liu
+*   **Bitkeep Wallet(BK) Gitlab runner 的负责人** @Evan Yu
+*   **Terraform(TF) Gitlab runner 的负责人** @Night Liu
 *   **Code Review 配置及权限**: @Sec Ma
 *   **安全 Review / 安全卡点**: @Julian Chen
 *   **后端 Review / 后端卡点**: @Evan Lu
@@ -114,18 +116,20 @@
 *   N20 申请/升降配数据库(MongoDB/TiDB/DocumentDB/Postgres/Neptune/Mysql)
 *   N22 SecretsManager申请
 *   N30 测试环境访问权限申请
-*   N34 云平台账号/(AK/SK)/Role/SSO
+*   N34 云平台账号(AWS/阿里云/腾讯云/华为云...)/(云平台 AK/SK)/Role/SSO 申请
 *   N35 数据库资源下线
 *   N102 LiteLLM账号申请、密码重置
-*   M27 Jfrog访问权限&组件加白申请
+*   M27 Jfrog访问权限&组件加白申请(访问内网 NPM/Golang/Python/Java 源)
 *   M29 运维门户等安全运维内部应用平台权限申请
 *   M82 云枢网络白名单申请, 比如本地访问 github.com
 *   G09 OpenSearch账号申请或已有账号权限变更
 *   G20 JumpServer 资产授权申请
 *   G23 JumpServer 用户创建申请(申请后7天内不绑定MFA需要重新申请G23)
 *   G27 JumpServer 重置MFA和解锁用户
+*   G33 AWS EC2机器配置更改
 *   G33 JumpServer 资产访问时长申请
-*   G131 BKE 集群权限申请‘
+*   G100 临时文件导入导出(对 pod/ec2 进行文件导入导出)
+*   G131 BKE 集群权限申请
 
 ## 区块链部门 BlockChain Team
 

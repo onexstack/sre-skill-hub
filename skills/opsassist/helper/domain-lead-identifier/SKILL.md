@@ -94,7 +94,7 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 
 ### 步骤 4：人工分配兜底（终极兜底）
 
-当 **步骤 1 / 2 / 3 全部失败**时，把问题升级到人工分配：
+当 **步骤 0 / 1 / 2 / 3 全部失败**时，把问题升级到人工分配：
 
 - **兜底负责人**：**@Sunway Zhong**（负责接单后人工判断并分配到对应负责人）。
 - 直接使用《注意事项》中的"失败兜底"文案回复，**必须在文案中明示已指派 @Sunway Zhong 进行人工分配**，避免用户卡在"找不到人"状态。
@@ -137,21 +137,44 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 **场景 E：步骤 0 返回单个服务相关信息**
 ```
 **匹配结果：**
-- 服务 `<service-name-1>` 的相关信息: `服务负责人: @张三`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`
+服务 `<service-name-1>` 的相关信息: 
+服务负责人: @张三
+服务账号: 6980
+VPC 信息: {"VPC名称":"sre-data-10.89.64", "VPC ID":"vpc-093610c14521098a2"}, VPC CIDR":"10.89.64.0/20"}
+服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)
+服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)
 ```
 
 **场景 F：步骤 0 返回单个 IP 相关信息**
 ```
 **匹配结果：**
-- IP `<ipv4>` 所属机器的相关信息: `服务负责人: Wes Wang`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`。
+IP `<ipv4>` 所属机器的相关信息: 
+服务负责人: Sunway Zhong
+业务线: Google > AI Data Group
+服务名称: data-agent-data-tdengine-server-online
 ```
 
 **场景 G：步骤 0 多实体（服务名 / IP）汇总**
 ```
 **匹配结果：**
-- 服务 `<service-name-1>` 的相关信息: `服务负责人: @张三`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`
-- 服务 `<service-name-2>` 的相关信息: `服务负责人: @李四`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`
-- IP `<ipv4>` 所属机器的相关信息: `服务负责人: Wes Wang`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`
+服务 `<service-name-1>` 的相关信息: 
+服务负责人: @张三
+服务账号: 6980
+VPC 信息: {"VPC名称":"sre-data-10.89.64", VPC ID":"vpc-093610c14521098a2", VPC CIDR":"10.89.64.0/20"}
+服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)
+服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)
+
+服务 `<service-name-2>` 的相关信息: 
+服务负责人: @李四
+服务账号: 6980
+VPC 信息: {"VPC名称":"sre-data-10.89.64", "VPC ID":"vpc-093610c14521098a2", "VPC CIDR":"10.89.64.0/20"}
+服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)
+服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)
+
+IP `<ipv4>` 所属机器的相关信息: 
+服务负责人: Sunway Zhong
+业务线: Google > AI Data Group
+服务名称: data-agent-data-tdengine-server-online
 ```
 
 **场景 H：Lark 审批快速通道命中（步骤 2 子步骤 3 → Lark 审批指引）**
@@ -196,17 +219,32 @@ description: 用于"找负责人/找对接人/找人/谁负责/值班人"场景�
 2. 调用 `/pod sre-os-apiserver`，命令返回: `服务负责人: @李四`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`
 
 **最终回复（场景 E）：**
-**匹配结果：** 已为您匹配到服务 `sre-os-apiserver`，当前服务的相关信息：`服务负责人: @李四`, `服务账号: 6980`, `VPC 信息: {"VPC名称":"sre-data-10.89.64","VPC ID":"vpc-093610c14521098a2","VPC CIDR":"10.89.64.0/20"}`, `服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)`, `服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)`。
+**匹配结果：** 已为您匹配到服务 `sre-os-apiserver`，相关信息如下：
+
+```text
+服务负责人: @李四
+服务账号: 6980
+VPC 信息: {"VPC名称":"sre-data-10.89.64", "VPC ID":"vpc-093610c14521098a2"}, VPC CIDR":"10.89.64.0/20"}
+服务子网: sre-data-server-public-c (subnet-0a2f1c11d270c1ad0, 10.89.71.128/25, ap-northeast-1c)
+服务安全组: sre-monitor-eks-pod-common-online (sg-0d0ea8d02200c7e61) sre-os-apiserver-online (sg-0611137fa7e521c7d)
+```
+
 
 ---
 
 **用户输入：** "10.247.10.175 这台机器是谁的？"
 **内部执行：**
 1. 正则识别到 IPv4 `10.247.10.175` + 找人意图 → 进入步骤 0。
-2. 调用 `/ec2 10.247.10.175`，命令返回: `服务负责人: Wes Wang`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`
+2. 调用 `/ec2 10.247.10.175`，命令返回: `服务负责人: Sunway Zhong`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`
 
 **最终回复（场景 F）：**
-**匹配结果：** 已为您匹配到 IP `10.247.10.175`，`服务负责人: Wes Wang`, `业务线: Google > AI Data Group`, `服务名称: data-agent-data-tdengine-server-online`。
+**匹配结果：** 已为您匹配到 IP `10.247.10.175`，相关信息如下：
+
+```text
+服务负责人: Sunway Zhong
+业务线: Google > AI Data Group
+服务名称: data-agent-data-tdengine-server-online
+```
 
 ---
 
