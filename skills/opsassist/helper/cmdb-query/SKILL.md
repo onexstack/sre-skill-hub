@@ -20,13 +20,13 @@ description: >
     such as IP, EC2, Pod, domain resolve, or service query tools.
 ---
 
-Before the first `cmdb_search_model` call, the agent must:
+Before the first `cmdb_search` call, the agent must:
 1. identify candidate models,
-2. call `cmdb_get_model_schema` for all models involved in the planned path,
+2. call `cmdb_schema` for all models involved in the planned path,
 3. build a complete query plan,
 4. then execute searches according to the plan.
 
-Call `cmdb_get_model_schema` for multiple candidate models in parallel whenever possible.
+Call `cmdb_schema` for multiple candidate models in parallel whenever possible.
 
 # CMDB Query Skill
 
@@ -36,21 +36,21 @@ CMDB is suitable for static or slow-changing resource metadata and configuration
 
 ## Core Rule: Schema-First Query Planning
 
-Before the first `cmdb_search_model` call, the agent must:
+Before the first `cmdb_search` call, the agent must:
 
 1. Understand the user's question.
 2. Identify the given resource identifier and target output.
 3. Select candidate CMDB models.
-4. Call `cmdb_get_model_schema` for all models involved in the planned query path.
+4. Call `cmdb_schema` for all models involved in the planned query path.
 5. Build a complete query plan using only real schema fields.
-6. Execute `cmdb_search_model` step by step.
+6. Execute `cmdb_search` step by step.
 7. Use returned values from one step as exact-match query values for the next step.
 
-Never call `cmdb_search_model` with guessed field names.
+Never call `cmdb_search` with guessed field names.
 
 ## CMDB Search Contract
 
-`cmdb_search_model.query` only supports exact-match filters.
+`cmdb_search.query` only supports exact-match filters.
 
 Valid format:
 
@@ -72,7 +72,7 @@ Do not use fuzzy match, range match, contains match, regex, SQL-like expressions
 Do not invent fields such as name, id, resource_id, or arn unless confirmed by schema.
 Schema Usage
 
-cmdb_get_model_schema returns field definitions for a model.
+cmdb_schema returns field definitions for a model.
 
 Use schema to identify:
 - valid query fields,
@@ -86,7 +86,7 @@ Primary keys are usually marked by:
   "tag": ["primaryKey"]
 }
 
-If multiple candidate models may be involved, call cmdb_get_model_schema for them before searching.
+If multiple candidate models may be involved, call cmdb_schema for them before searching.
 
 Query Plan Format
 
