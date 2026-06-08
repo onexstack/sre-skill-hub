@@ -28,6 +28,8 @@ Before the first `cmdb_search` call, the agent must:
 
 Call `cmdb_schema` for multiple candidate models in parallel whenever possible.
 
+Read docs/model.md to know available cmdb models
+
 # CMDB Query Skill
 
 This skill guides the agent to query CMDB resource metadata through schema-first planning.
