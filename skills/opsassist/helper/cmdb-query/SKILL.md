@@ -16,8 +16,9 @@ description: >
     real-time cluster investigation scenarios.
 
     Only use this skill for owner/contact lookup, when alert contact queries failed.
-    Do nnot use this skill for requests already covered by dedicated tools
-    such as IP, EC2, Pod, domain resolve, or service query tools.
+    Do not use this skill for requests already covered by dedicated tools
+    such as IP, EC2, Pod, domain resolve, or service query tools. Only use when these approaches
+    could not satisfy the query.
 ---
 
 Before the first `cmdb_search` call, the agent must:
