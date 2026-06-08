@@ -25,4 +25,4 @@ Example abstract path:
 source model -> relation model -> target model
 ```
 
-1. 查询是否有 ingress 指向某个pod：用 pod tool 获取 clusterName + namespace，再拿这两个信息查 eks_ingress model
+1. 查询是否有 ingress 指向某个 K8s 工作负载(Pod、Service、Deployment等均属此类): 先想办法确定 cluster_name + namespace，再查 aws_eks_ingress model

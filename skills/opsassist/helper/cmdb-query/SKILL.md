@@ -22,13 +22,17 @@ description: >
 ---
 
 Before the first `cmdb_search` call, the agent must:
-1. identify candidate models,
-2. call `cmdb_schema` for all models involved in the planned path,
-3. build a complete query plan,
-4. then execute searches according to the plan.
+1. Read docs/query-patterns.md and check if the user's question matches any preset path.
+2. If a preset path matches, follow it exactly — do not improvise or skip steps.
+3. If no preset path matches, identify candidate models,
+4. call `cmdb_schema` for all models involved in the planned path,
+5. build a complete query plan,
+6. then execute searches according to the plan.
 
 Call `cmdb_schema` for multiple candidate models in parallel whenever possible.
 
+Read docs/model.md to know available cmdb models
+Read docs/model.md to know available cmdb models
 Read docs/model.md to know available cmdb models
 
 # CMDB Query Skill
@@ -107,5 +111,4 @@ Before searching, internally form a plan like:
 The plan does not need to be fully shown to the user, but the final answer should briefly mention the actual query path used.
 
 When More Documents Are Needed
-Read docs/query-patterns.md when planning very complicated multi-step CMDB queries.
 Read docs/boundaries.md when deciding whether CMDB is appropriate.
