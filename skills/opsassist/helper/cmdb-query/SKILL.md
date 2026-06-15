@@ -30,7 +30,7 @@ Before the first `cmdb_search` call, the agent must:
 6. then execute searches according to the plan.
 
 preset path includes:
-1. 查询是否有 ingress 指向某个 K8s 工作负载(Pod、Service、Deployment等均属此类): 先想办法确定 cluster_name + namespace，再查 aws_eks_ingress model
+1. 查询是否有 ingress 指向某个 K8s 工作负载(Pod、Service、Deployment等均属此类): 先通过查询 pod 确定 cluster_name + namespace，再查 aws_eks_ingress model
 
 Call `cmdb_schema` for multiple candidate models in parallel whenever possible.
 
