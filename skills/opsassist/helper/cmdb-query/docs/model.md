@@ -8,7 +8,7 @@ business_services, service_clusters, aws_subnet, aws_vpc, aws_region, aws_accoun
 aws_security_group_rule, aws_eni, aws_ec2_instances, aws_ebs_volumes, aws_rds_cluster, aws_rds_instance,
 aws_hosted_zone, aws_hosted_zone_record, services_loadbalancer_v2, eks_service_clusters_meta, aws_eks_clusters,
 aws_eks_ingress, aws_eks_nodes, aws_eks_node_groups, service_clusters_aws_subnet_rel, service_clusters_aws_vpc_rel,
-service_clusters_aws_security_group_rel, service_clusters_aws_ec2_instances_rel
+service_clusters_aws_security_group_rel, service_clusters_aws_ec2_instances_rel, aws_lb_listener, aws_lb_listener_rule
 
 detailed info(except _rel model):
 - business_services: Business service metadata, ownership, repo, deployment, and config.
@@ -32,3 +32,5 @@ detailed info(except _rel model):
 - aws_eks_ingress: EKS Ingress metadata, class, rules, TLS, annotations, and cluster/namespace relation.
 - aws_eks_nodes: EKS node metadata, status, EC2 mapping, capacity, labels, taints, and addresses.
 - aws_eks_node_groups: EKS node group metadata, scaling, instance types, subnets, security groups, and AMI settings.
+- aws_lb_listener: Load balancer listener metadata, port/protocol, SSL policy, certificates, default actions, and LB relation.
+- aws_lb_listener_rule: Listener rule metadata, priority/default flag, conditions, actions, tags, and listener relation.

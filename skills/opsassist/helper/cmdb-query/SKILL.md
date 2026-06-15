@@ -22,12 +22,15 @@ description: >
 ---
 
 Before the first `cmdb_search` call, the agent must:
-1. Read docs/query-patterns.md and check if the user's question matches any preset path.
+1. Check if the user's question matches any preset path.
 2. If a preset path matches, follow it exactly — do not improvise or skip steps.
 3. If no preset path matches, identify candidate models,
 4. call `cmdb_schema` for all models involved in the planned path,
 5. build a complete query plan,
 6. then execute searches according to the plan.
+
+preset path includes:
+1. 查询是否有 ingress 指向某个 K8s 工作负载(Pod、Service、Deployment等均属此类): 先想办法确定 cluster_name + namespace，再查 aws_eks_ingress model
 
 Call `cmdb_schema` for multiple candidate models in parallel whenever possible.
 
