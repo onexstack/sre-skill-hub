@@ -18,7 +18,7 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 
 ## 故障诊断标准操作流程 (SOP)
 
-请严格按照以下步骤执行诊断。在执行过程中，**你必须优先调用系统提供的 MCP Tools 或命令来主动获取客观数据**，严禁凭空猜测。**【重要提醒：整个排障过程中，严禁调用以下工具 `cmdb_*`、`cmdb-*`、`/svc`】**。
+请严格按照以下步骤执行诊断。在执行过程中，**你必须优先调用系统提供的 MCP Tools 或命令来主动获取客观数据**，严禁凭空猜测。**【重要提醒：整个排障过程中，严禁调用以下工具：`cmdb_*`、`cmdb-*`、`svc`、`analyze`】**。
 
 ### 步骤 1：信息收集与环境探测 (Context & Discovery)
 
@@ -29,17 +29,9 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
    - **针对网络异常：** 如果表现为“访问不通”，推测并确认相关的 `Service` 或 `Ingress` 名称。
 3. 如果通过上述工具仍完全无法锁定目标，再向用户简短确认集群名、namespace 等必要信息。
 
-### 步骤 2：自动初步诊断 (Automated K8sGPT Scanning)
-一旦锁定了异常所在的集群名、namespace 或资源类型，立即使用 AI 诊断引擎进行全局扫描：
-1. 必须调用 `analyze` 工具。
-   - 传入确定的 `namespace`。
-   - 必须设置 `"explain": true`，获取深度分析结果。
-   - 如果用户明确指出是**网络访问不通**，务必通过 `filters` 参数锁定范围：`["Service", "Ingress", "NetworkPolicy"]`。
-2. 提取 `analyze` 结果中的严重错误项。如果根因已经非常清晰（如缩进错误、镜像名拼写错误、Service 无 Endpoint），可直接跳至**步骤 4**。如果报错模糊，进入步骤 3 深度下钻。
+### 步骤 2：深度钻取与交叉验证 (Deep Dive)
 
-### 步骤 3：深度钻取与交叉验证 (Deep Dive)
-
-基于初步线索，使用基础 Kubernetes MCP 工具按需拉取底层数据，进行交叉验证：
+基于收集到的线索与资源信息，使用基础 Kubernetes MCP 工具按需拉取底层数据，进行交叉验证：
 - **排查网络连通性与路由异常 (Network Unreachable/Timeout)：**
   如果 Pod 处于 `Running` 且 `Ready` 状态但外部无法访问：
   1. 调用 `get-resource` 获取 `services`，检查 Selector 与 TargetPort 映射。
@@ -52,17 +44,17 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 - **排查资源与配置异常 (OOM/Probe Failed)：**
   调用 `get-resource` 获取 `pods` 的 YAML，重点检查 `resources.limits`、探针 (Probes) 配置以及环境变量。
 - **未定位具体根因时的兜底排查 (Fallback to FlashAI)：**
-  如果执行了以上所有深度排查（网络、日志、事件、配置等）后，各项指标和表现均无明显异常，且仍无法定位到具体故障根因时：
+  如果执行了以上所有深度排查（网络、日志、事件、配置等）后，各项指标 and 表现均无明显异常，且仍无法定位到具体故障根因时：
   1. 必须调用 `flashai` 工具进行智能排障。传入诊断所需的上下文信息（如 `namespace`、`podName` 或 `serviceName` 等）。
   2. 提取、提炼并整合 `flashai` 返回的分析结果，输出其汇总后的核心排障结论。
 
-### 步骤 4：内部根因定性 (Internal Root Cause Logic)
+### 步骤 3：内部根因定性 (Internal Root Cause Logic)
 
 在输出结论前，你需要**在内部逻辑中**将故障定性（注意：对用户输出时不要提“谁的责任”），以决定最终采取的修复动作：
 - **研发侧动作判定：** 属于代码 Panic、启动配置错误、Service Label 填错、拉取不存在的镜像 Tag、业务内存溢出，或由 `flashai` 汇总出的业务应用层代码/配置故障。后续动作：提供修改建议。
 - **运维基建侧动作判定：** 属于 DNS 解析失败、云厂商 LB 异常、安全组阻断、Node NotReady、节点资源耗尽、PVC 绑定失败，或由 `flashai` 汇总定位出的底层云基建/节点网络故障。后续动作：在最终回复中，给出具体的 `/oncall <值班模块> <问题描述>` 工单创建命令供用户复制使用。
 
-### 步骤 5：输出结论与处置方案 (Output & Remediation)
+### 步骤 4：输出结论与处置方案 (Output & Remediation)
 
 最后，向用户输出结构化的诊断报告，直接给结论。报告必须包含以下 3 个部分（使用 Markdown）：
 1. **故障现象摘要：** 简述你通过工具观察到了什么（如：通过 list-events 发现 `payment-pod-xxx` 重启了 5 次；或：常规排查未见异常，已通过 `flashai` 工具联动诊断）。
@@ -104,10 +96,10 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 | 复杂网络/安全组阻断/云厂商 LB 异常 | `/oncall eks_ec2 {serviceName} [{env}] 网络连通性异常 - 需 SRE 介入排查网络链路` |
 
 ## 【严格行为约束】
-1. **不做归责：** 绝对不说“责任方是谁”、不做定性归责，不输出“属于研发问题/运维问题”字样，只聚焦解决问题和推荐工单。
+1. **不做归责：** 绝对不说“责任方是谁”、不做定性归责，不输出“属于研发问题/运维问题”字样，只聚焦解决问题 and 推荐工单。
 2. **禁止废话：** 不输出过渡语（如“根据您的信息…”、“综上所述…”、“核心矛盾在于…”），不重述用户说过的内容，不做原因的冗长解释，直接给结论和操作。
 3. **执行闭环：** 绝不说“建议联系运维”后就敷衍结束。对于运维问题，必须在回复中明确给出完整填充了实际变量的 `/oncall <值班模块> <问题描述>` 命令，引导用户一键复制发送。不需要运维的问题则不提供工单命令。
-4. **禁用 CMDB 工具：** 严禁调用任何以 `cmdb_` 开头的工具。排障过程只能依赖 Kubernetes 原生或文中指定的排障 MCP 工具。
-5. **禁用 kubectl 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下本 SKILL 允许的工具：`get-unified-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`analyze`、`flashai`。如果执行了以上所有深度排查（网络、日志、事件、配置等）后，各项指标和表现均无明显异常，且仍无法定位到具体故障根因时：
+4. **禁用工具：** 严禁调用任何以 `cmdb_` 和 `cmdb-`开头的工具，且**严禁调用 `analyze` 和 `svc` 工具**。排障过程只能依赖 Kubernetes 原生或文中指定的其他允许的排障 MCP 工具。
+5. **禁用 kubectl 工具：** 在排障时禁止调用 `kubectl` 命令，如果要获取 kubernetes 集群信息请使用以下本 SKILL 允许的工具：`get-unified-logs`、`get-resource`、`list-events`、`list-namespaces`、`list-resources`、`list-integrations`、`flashai`。**严禁调用 `analyze` 工具**。如果执行了以上所有深度排查（网络、日志、事件、配置等）后，各项指标和表现均无明显异常，且仍无法定位到具体故障根因时：
   1. 必须调用 `flashai` 工具进行智能排障。传入诊断所需的上下文信息（如 `namespace`、`podName` 或 `serviceName` 等）。
   2. 提取、提炼并整合 `flashai` 返回的分析结果，输出其汇总后的核心排障结论。
