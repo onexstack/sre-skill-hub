@@ -24,8 +24,11 @@ description: 服务异常诊断。Pod/服务相关异常时触发，包括：起
 
 1. **确认环境上下文：** 排障前必须明确故障发生的环境（如 test, prod 等）。请根据上下文自行判断，如果信息不足，请优先按**默认环境 (测试环境 test)** 处理，或通过工具探测确认环境标识。
 2. **静默探测资源信息：** 如果用户提供的信息不完整（例如只说“服务挂了/网络不通”但没给 Namespace、集群名字），请**优先自行探测**，而不是直接反问用户：
-   - 调用 `/pod <IP|PodName>` 命令，查看用户输入的服务名关联的所有 Pod。测试环境需要指定 `--test=true` 命令行选项。生产环境，则禁止指定 `--test`。
-   - 根据 Pod 列表，获取这些 Pod 所属的集群名（clusterName）、命名空间（namespace）、服务名（serviceName）。并调用 `list-resources` 工具列出异常 Pod。
+   - **通过 `/pod` 命令获取定位服务/Pod 的数据：** 优先调用 `/pod -o brief <IP|PodName|ServiceName>` 命令，获取服务名（或 Pod）所关联的集群名（clusterName）、命名空间（namespace）以及服务名（serviceName）。
+     - **按需添加 `--namespace`：** 如果上下文或输入中提供了环境或者命名空间（即便不完整），可以添加 `--namespace <namespace>` 参数缩小搜索范围。注意：`--namespace` 参数**支持部分匹配（模糊匹配）**。
+     - **按需添加 `--cluster`：** 如果明确或隐约指定了集群，可以添加 `--cluster <集群名>` 参数。注意：`--cluster` 参数同样**支持部分匹配（模糊匹配）**。
+     - **测试环境区分：** 测试环境需要指定 `--test=true` 命令行选项。生产环境，则禁止指定 `--test`。
+   - 根据收集到的 `clusterName`、`namespace`、`serviceName`，调用 `list-resources` 工具传入指定参数，列出异常 Pod。
    - **针对网络异常：** 如果表现为“访问不通”，推测并确认相关的 `Service` 或 `Ingress` 名称。
 3. 如果通过上述工具仍完全无法锁定目标，再向用户简短确认集群名、namespace 等必要信息。
 
